@@ -1,5 +1,5 @@
 plugins {
-	id 'java'
+	id 'java-library'
 	id 'org.springframework.boot' version '3.5.7'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -19,16 +19,25 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	api 'org.springframework.boot:spring-boot-starter-data-redis'
+	api 'io.lettuce:lettuce-core'
+	api 'org.apache.commons:commons-pool2'
+	api 'com.fasterxml.jackson.core:jackson-databind'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	implementation 'org.springframework.boot:spring-boot-configuration-processor'
-	implementation 'io.lettuce:lettuce-core'
-	implementation 'org.apache.commons:commons-pool2'
-	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// Disable bootJar task since this is a library, not an executable
+bootJar {
+	enabled = false
+}
+
+// Enable plain jar for library
+jar {
+	enabled = true
 }
 
 tasks.named('test') {
